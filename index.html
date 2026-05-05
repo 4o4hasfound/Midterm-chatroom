@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ChatVerse - A modern real-time chatroom application" />
+  <title>ChatVerse</title>
+  <link rel="icon" type="image/svg+xml" href="chat-icon.svg" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- ========== LOGIN PAGE ========== -->
+  <div id="login-page" class="login-page" style="display:none;">
+    <div class="login-bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    <div class="login-card" id="login-card">
+      <div class="login-header">
+        <div class="logo-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="12" fill="url(#logoGrad)" />
+            <path d="M12 14h16v3H12zm0 5h12v3H12zm0 5h8v3H12z" fill="white" opacity="0.9"/>
+            <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#3B82F6"/></linearGradient></defs>
+          </svg>
+        </div>
+        <h1>ChatVerse</h1>
+        <p id="login-subtitle">Welcome back</p>
+      </div>
+
+      <div id="error-alert" class="error-alert" style="display:none;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 10.5a.75.75 0 110-1.5.75.75 0 010 1.5zM8.75 4.5v4a.75.75 0 01-1.5 0v-4a.75.75 0 011.5 0z"/></svg>
+        <span id="error-text"></span>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group" id="username-group" style="display:none;">
+          <label for="username-input">Username</label>
+          <input id="username-input" type="text" placeholder="Choose a username" />
+        </div>
+        <div class="form-group">
+          <label for="email-input">Email</label>
+          <input id="email-input" type="email" placeholder="Enter your email" required />
+        </div>
+        <div class="form-group">
+          <label for="password-input">Password</label>
+          <input id="password-input" type="password" placeholder="Enter your password" required />
+        </div>
+        <button type="submit" class="btn-primary" id="login-btn">Sign In</button>
+      </form>
+
+      <div class="divider"><span>or</span></div>
+
+      <button class="btn-google" id="google-btn">
+        <svg width="18" height="18" viewBox="0 0 18 18">
+          <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+          <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
+          <path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+          <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+        </svg>
+        Sign in with Google
+      </button>
+
+      <p class="switch-mode">
+        <span id="switch-text">Don't have an account?</span>
+        <button class="btn-link" id="switch-btn">Sign Up</button>
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== CHAT PAGE ========== -->
+  <div id="chat-page" class="chat-page" style="display:none;">
+    <!-- Sidebar -->
+    <div class="sidebar-container show" id="sidebar-container">
+      <div class="sidebar-header">
+        <h2>ChatVerse</h2>
+        <div class="header-actions">
+          <button class="btn-icon mobile-close" id="close-sidebar-btn" title="Close sidebar">✕</button>
+        </div>
+      </div>
+
+      <!-- Search + New Chat -->
+      <div class="sidebar-search">
+        <div class="search-box">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" opacity="0.4"><path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85-.017.016zm-5.242.156a5 5 0 110-10 5 5 0 010 10z" /></svg>
+          <input type="text" placeholder="Search conversations..." id="sidebar-search-input" />
+        </div>
+        <button class="btn-new-chat" id="new-chat-btn" title="New chat">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" /></svg>
+        </button>
+      </div>
+
+      <!-- Chat list -->
+      <div class="chat-list" id="chat-list"></div>
+
+      <!-- User footer -->
+      <div class="sidebar-footer">
+        <div class="user-info" id="user-info-btn">
+          <div class="user-avatar-small" id="sidebar-avatar"></div>
+          <span class="user-name" id="sidebar-username"></span>
+          <svg class="chevron" id="chevron-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4.427 5.427a.75.75 0 011.06-.013L8 7.773l2.513-2.36a.75.75 0 111.027 1.093l-3 2.813a.75.75 0 01-1.027 0l-3-2.813a.75.75 0 01-.013-1.06z"/></svg>
+        </div>
+        <div class="user-menu slide-up" id="user-menu" style="display:none;">
+          <button id="edit-profile-btn">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 8a3 3 0 100-6 3 3 0 000 6zm-5 6a5 5 0 0110 0H3z"/></svg>
+            Edit Profile
+          </button>
+          <button id="logout-btn" class="logout-btn">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6 2a.75.75 0 01.75.75v2.5a.75.75 0 01-1.5 0v-2.5A.75.75 0 016 2zm0 9.5a.75.75 0 01.75.75v1a.75.75 0 01-1.5 0v-1A.75.75 0 016 11.5zm5-7.25a.75.75 0 00-1.5 0v7.5a.75.75 0 001.5 0v-7.5z"/></svg>
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat container -->
+    <div class="chat-container" id="chat-container">
+      <button class="btn-hamburger" id="open-sidebar-btn" style="display:none;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+
+      <!-- Empty state -->
+      <div class="no-chat-selected" id="empty-state">
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+              <rect x="10" y="15" width="60" height="45" rx="12" stroke="url(#emptyGrad)" stroke-width="3" fill="none"/>
+              <path d="M25 35h30M25 45h20" stroke="url(#emptyGrad)" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="60" cy="55" r="12" fill="url(#emptyGrad)" opacity="0.2"/>
+              <path d="M56 55l3 3 5-5" stroke="#6C63FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs><linearGradient id="emptyGrad" x1="10" y1="15" x2="70" y2="60"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#3B82F6"/></linearGradient></defs>
+            </svg>
+          </div>
+          <h3>Select a conversation</h3>
+          <p>Choose a chat from the sidebar or start a new one</p>
+        </div>
+      </div>
+
+      <!-- Active chatroom -->
+      <div class="chatroom" id="chatroom" style="display:none;">
+        <div class="chatroom-header">
+          <button class="btn-back" id="chat-back-btn">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"/></svg>
+          </button>
+          <div class="chatroom-info">
+            <h3 id="chat-title"></h3>
+            <span id="chat-subtitle"></span>
+          </div>
+          <div class="chatroom-actions">
+            <button class="btn-icon" id="chat-search-btn" title="Search messages">🔍</button>
+            <button class="btn-icon" id="chat-invite-btn" title="Invite members" style="display:none;">👥</button>
+          </div>
+        </div>
+
+        <div class="search-bar slide-down" id="msg-search-bar" style="display:none;">
+          <input type="text" placeholder="Search messages..." id="msg-search-input" />
+          <span class="search-count" id="msg-search-count"></span>
+          <button class="btn-icon" id="msg-search-close">✕</button>
+        </div>
+
+        <div class="blocked-warning" id="blocked-warning" style="display:none;">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM4 10a6 6 0 0110.89-3.476L5.524 15.89A5.977 5.977 0 014 10zm2.11 4.476L15.476 5.11A6 6 0 016.11 14.476z"/></svg>
+          <span>This conversation has been blocked. Messages cannot be sent.</span>
+        </div>
+
+        <div class="messages-container" id="messages-container"></div>
+
+        <div class="message-input-container" id="message-input-container">
+          <div class="reply-preview" id="reply-preview" style="display:none;">
+            <div class="reply-preview-bar"></div>
+            <div class="reply-preview-content">
+              <span class="reply-preview-name" id="reply-preview-name"></span>
+              <span class="reply-preview-text" id="reply-preview-text"></span>
+            </div>
+            <button class="btn-cancel-reply" id="cancel-reply-btn">✕</button>
+          </div>
+          <form class="input-form" id="message-form">
+            <div class="input-actions-left">
+              <button type="button" class="btn-action" id="image-btn" title="Send image">📷</button>
+              <input type="file" accept="image/*" id="image-input" style="display:none;" />
+              <button type="button" class="btn-action" id="gif-btn" title="Send GIF">GIF</button>
+              <button type="button" class="btn-action" id="emoji-input-btn" title="Insert emoji">😊</button>
+              <button type="button" class="btn-action" id="sticker-btn" title="Draw sticker">🎨</button>
+            </div>
+            <input type="text" placeholder="Type a message... (use @bot to chat with AI)" id="text-input" class="text-input" />
+            <button type="submit" class="btn-send" id="send-btn" disabled>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 10l-7.997 4.116A.5.5 0 011.5 14V6a.5.5 0 01.503-.116z"/><path d="M11 10l7.003-4.116A.5.5 0 0118.5 6v8a.5.5 0 01-.497.884L11 10z"/></svg>
+            </button>
+          </form>
+          <div class="picker-popup" id="gif-picker-popup" style="display:none;"></div>
+          <div class="picker-popup emoji-input-popup" id="emoji-input-popup" style="display:none;"></div>
+        </div>
+
+        <!-- Sticker canvas (replaces message input) -->
+        <div class="sticker-canvas-container" id="sticker-container" style="display:none;">
+          <div class="canvas-toolbar">
+            <div class="toolbar-section">
+              <span class="toolbar-label">Colors</span>
+              <div class="color-palette" id="color-palette"></div>
+            </div>
+            <div class="toolbar-section">
+              <span class="toolbar-label">Brush</span>
+              <div class="brush-options" id="brush-options"></div>
+            </div>
+            <div class="toolbar-actions">
+              <button class="toolbar-btn" id="undo-btn">↩ Undo</button>
+              <button class="toolbar-btn" id="clear-canvas-btn">🗑 Clear</button>
+            </div>
+          </div>
+          <div class="canvas-area">
+            <canvas id="sticker-canvas"></canvas>
+          </div>
+          <div class="canvas-bottom-bar">
+            <button class="btn-canvas-cancel" id="cancel-sticker-btn">Cancel</button>
+            <button class="btn-canvas-send" id="send-sticker-btn">Send Sticker</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODALS ========== -->
+
+  <!-- Create Chat Modal -->
+  <div class="modal-overlay" id="create-chat-modal" style="display:none;">
+    <div class="modal-content create-chat-modal">
+      <div class="modal-header">
+        <h3>New Conversation</h3>
+        <button class="btn-close" id="close-create-modal">✕</button>
+      </div>
+      <div class="chat-type-tabs">
+        <button class="tab active" id="tab-private">Private</button>
+        <button class="tab" id="tab-group">Group</button>
+      </div>
+      <div class="form-group-modal" id="group-name-section" style="display:none;">
+        <input type="text" placeholder="Group name" id="group-name-input" class="group-name-input" />
+      </div>
+      <div class="form-group-modal">
+        <input type="text" placeholder="Search users by name or email..." id="user-search-input" class="search-input" />
+      </div>
+      <div class="selected-users" id="selected-users"></div>
+      <div class="user-results" id="user-results"></div>
+      <button class="btn-create-chat" id="create-chat-btn" disabled>Start Chat</button>
+    </div>
+  </div>
+
+  <!-- User Profile Modal -->
+  <div class="modal-overlay" id="profile-modal" style="display:none;">
+    <div class="modal-content profile-modal">
+      <div class="modal-header">
+        <h3>Edit Profile</h3>
+        <button class="btn-close" id="close-profile-modal">✕</button>
+      </div>
+      <div class="profile-body">
+        <div class="profile-photo-section">
+          <div class="profile-photo" id="profile-photo-container">
+            <div class="photo-placeholder" id="profile-photo-placeholder"><span id="profile-photo-letter"></span></div>
+            <img id="profile-photo-img" style="display:none;" alt="Profile" />
+            <div class="photo-overlay" id="profile-photo-overlay">📷</div>
+          </div>
+          <input type="file" accept="image/*" id="profile-photo-input" style="display:none;" />
+          <p class="photo-hint">Click to change photo</p>
+        </div>
+        <div class="profile-fields">
+          <div class="profile-field">
+            <label>Username</label>
+            <input type="text" id="profile-username" placeholder="Your username" />
+          </div>
+          <div class="profile-field">
+            <label>Email</label>
+            <input type="email" id="profile-email" disabled class="disabled" />
+          </div>
+          <div class="profile-field">
+            <label>Phone</label>
+            <input type="tel" id="profile-phone" placeholder="Your phone number" />
+          </div>
+          <div class="profile-field">
+            <label>Address</label>
+            <input type="text" id="profile-address" placeholder="Your address" />
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button class="btn-save-profile" id="save-profile-btn">Save Changes</button>
+          <button class="btn-block-users" id="manage-blocked-btn">🚫 Manage Blocked Users</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invite Modal -->
+  <div class="modal-overlay" id="invite-modal" style="display:none;">
+    <div class="modal-content invite-modal">
+      <div class="modal-header">
+        <h3>Invite Members</h3>
+        <button class="btn-close" id="close-invite-modal">✕</button>
+      </div>
+      <div class="invite-body">
+        <div class="current-members">
+          <h4 id="current-members-title">Current Members (0)</h4>
+          <div class="member-list" id="current-members-list"></div>
+        </div>
+        <div class="invite-search">
+          <h4>Add People</h4>
+          <input type="text" placeholder="Search users..." id="invite-search-input" class="invite-search-input" />
+          <div class="invite-results" id="invite-results"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Block User Modal -->
+  <div class="modal-overlay" id="block-modal" style="display:none;">
+    <div class="modal-content block-modal">
+      <div class="modal-header">
+        <h3>Blocked Users</h3>
+        <button class="btn-close" id="close-block-modal">✕</button>
+      </div>
+      <div class="block-body">
+        <div class="blocked-list" id="blocked-list-section">
+          <h4>Currently Blocked</h4>
+          <div id="blocked-list"></div>
+        </div>
+        <div class="block-search-section">
+          <h4>Block a User</h4>
+          <input type="text" placeholder="Search users..." id="block-search-input" class="block-search-input" />
+          <div class="block-results" id="block-results"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
