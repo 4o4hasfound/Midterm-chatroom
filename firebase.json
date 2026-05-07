@@ -1,7 +1,7 @@
 {
   "hosting": {
-    "public": "dist",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [{ "source": "**", "destination": "/index.html" }]
+    "public": ".",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "js/scratch/**", "spec.pdf", "spec_text.txt", "AI_reference.pdf"],
+    "rewrites": [{ "source\": \"**\", \"destination\": \"/index.html\" }]
   }
 }
