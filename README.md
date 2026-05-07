@@ -1,25 +1,23 @@
 Midterm Project - Chatroom
 Student ID: 113062206
 
-This is a chatroom web application built with React (Vite) and Firebase.
+This is a chatroom web application built with Vanilla JavaScript, HTML, CSS and Firebase.
 Deployed at: https://midterm-chatroom-2672b.web.app
 
 
 --- How to set up locally ---
 
-Prerequisites: Node.js (v18 or above), npm
+Note: Firebase Auth does not work if you open index.html directly (file://). You must use a local server.
 
 1. Extract or clone the project folder
 2. Open a terminal in the project directory
-3. Run: npm install
-4. Run: npm run dev
-5. Open http://localhost:5173 in the browser
+3. Run: npx serve .
+4. Open http://localhost:3000 in the browser
 
 To deploy to Firebase:
 1. npm install -g firebase-tools
 2. firebase login
-3. npm run build
-4. firebase deploy
+3. firebase deploy
 
 
 --- Features ---
@@ -33,7 +31,7 @@ Basic:
 - Chatroom: create private and group chats, real-time messaging, load chat history, invite members to group chats
 
 Advanced:
-- Built with React framework (Vite)
+- Pure Vanilla JavaScript implementation
 - Chrome notifications for unread messages (only notifies when the tab is not focused)
 - CSS animations (message slide-in, hover effects, floating shapes background)
 - XSS prevention (HTML tags in messages are escaped, not rendered)
