@@ -70,7 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
   googleBtn.onclick = async () => {
     errorAlert.style.display = 'none';
     googleBtn.disabled = true;
-    try { await loginWithGoogle(); } catch (err) { showError('Google sign-in failed.'); }
+    try { 
+      await loginWithGoogle(); 
+    } catch (err) { 
+      console.error(err);
+      showError(err.message || 'Google sign-in failed.'); 
+    }
     googleBtn.disabled = false;
   };
 
