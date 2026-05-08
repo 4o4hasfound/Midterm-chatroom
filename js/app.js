@@ -1,5 +1,31 @@
 // Main application logic
 
+// Guard: Firebase Auth requires http/https — block file:// with a helpful message
+if (location.protocol === 'file:') {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.body.innerHTML = `
+      <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0a0a1a;font-family:Inter,sans-serif;padding:20px;">
+        <div style="max-width:480px;background:rgba(20,20,40,0.9);border:1px solid rgba(239,68,68,0.3);border-radius:20px;padding:40px;text-align:center;">
+          <div style="font-size:48px;margin-bottom:16px;">⚠️</div>
+          <h2 style="color:#f87171;font-size:20px;margin:0 0 12px;">Cannot open as a local file</h2>
+          <p style="color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;margin:0 0 24px;">
+            Firebase Authentication requires the app to be served over <strong style="color:#fff;">http://</strong> or <strong style="color:#fff;">https://</strong>.<br/>
+            Opening via <code style="color:#a5a0ff;background:rgba(108,99,255,0.15);padding:2px 6px;border-radius:4px;">file://</code> is not supported.
+          </p>
+          <div style="background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.2);border-radius:12px;padding:16px;text-align:left;margin-bottom:20px;">
+            <p style="color:rgba(255,255,255,0.5);font-size:12px;text-transform:uppercase;font-weight:600;margin:0 0 10px;">Option 1 — Live deployed app</p>
+            <a href="https://midterm-chatroom-2672b.web.app" style="color:#6C63FF;font-size:14px;word-break:break-all;">https://midterm-chatroom-2672b.web.app</a>
+          </div>
+          <div style="background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.2);border-radius:12px;padding:16px;text-align:left;">
+            <p style="color:rgba(255,255,255,0.5);font-size:12px;text-transform:uppercase;font-weight:600;margin:0 0 10px;">Option 2 — Local server</p>
+            <code style="color:#a5a0ff;font-size:13px;">npx serve .</code>
+            <p style="color:rgba(255,255,255,0.4);font-size:12px;margin:8px 0 0;">Then open <strong style="color:#fff;">http://localhost:3000</strong></p>
+          </div>
+        </div>
+      </div>`;
+  });
+} else {
+
 document.addEventListener('DOMContentLoaded', () => {
   // DOM Elements
   const loginPage = document.getElementById('login-page');
@@ -443,3 +469,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
   }
 });
+
+} // end else (not file://)
